@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkinsons Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #f39c12;
+            border-bottom: 2px solid #f39c12;
+        }
+
+        .form-section {
+            padding: 100px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .form-section .container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+        }
+
+        form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 60%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 300px;
+        }
+
+        h3, h2 {
+            font-size: 1.6rem;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem; /* Space between the elements */
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        select.form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            appearance: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        select.form-control:hover {
+            border-color: #f39c12;
+        }
+
+        select.form-control:focus {
+            outline: none;
+            border-color: #f39c12;
+            box-shadow: 0 0 5px rgba(243, 156, 18, 0.5);
+        }
+
+        .submit-btn {
+            background-color: #f39c12;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            font-size: 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .submit-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .tips {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 22%;
+            margin-left: 2rem;
+            position: absolute;
+            right: 1%;
+            margin-left: auto;
+        }
+
+        .tips h3 {
+            font-size: 1.5rem;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips ul li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #f39c12;
+            color: white;
+            text-align: left;
+            padding: 1rem 0;
+        }
+
+        footer p{
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+
+        .connect {
+            color: white;
+        }
+
+        .social-icons a, i {
+            color: white;
+            font-size: 2rem;
+            margin: 0 10px;
+            text-decoration: none;
+            position: relative;
+            left: 92%;
+            bottom: 10px;
+        }
+
+        .social-icons a:hover, i:hover {
+            cursor: pointer;
+            color: #333;
+        }
+
+        div .btn-primary {
+            position: absolute;
+            margin-left: 275px;
+        }
+
+        .btn-primary {
+            padding: 12px;
+            border: none;
+            background-color: palevioletred;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: rgb(202, 30, 88);
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Parkinsons Predict</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/predictdata1">Prediction Form</a></li>
+                <li><a href="/about_parkinsons">About Parkinsons</a></li>
+                <li><a href="/faq">FAQ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Prediction Form Section -->
+    <section class="form-section">
+        <div class="container">
+            <form action="{{ url_for('predict_datapoint') }}" method="POST">
+                
+                <div class="form-group">
+                    <label class="form-label" for="Dribbling_of_saliva_during_the_daytime">Dribbling of Saliva During the Daytime</label>
+                    <select class="form-control" id="Dribbling_of_saliva_during_the_daytime" name="Dribbling_of_saliva_during_the_daytime" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="height">Height (cm)</label>
+                    <input class="form-control" id="height" type="number" name="height" placeholder="Enter Height" step="0.1" min="0" max="300" required />
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="Falling">Falling</label>
+                    <select class="form-control" id="Falling" name="Falling" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="Problems_remembering_things_that_have_happened_recently_or_forgetting_to_do_things">Memory Problems</label>
+                    <select class="form-control" id="Problems_remembering_things_that_have_happened_recently_or_forgetting_to_do_things" name="Problems_remembering_things_that_have_happened_recently_or_forgetting_to_do_things" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="Loss_or_change_in_your_ability_to_taste_or_smell">Loss or Change in Ability to Taste or Smell</label>
+                    <select class="form-control" id="Loss_or_change_in_your_ability_to_taste_or_smell" name="Loss_or_change_in_your_ability_to_taste_or_smell" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="effect_of_alcohol_on_tremor">Effect of Alcohol on Tremor</label>
+                    <select class="form-control" id="effect_of_alcohol_on_tremor" name="effect_of_alcohol_on_tremor" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="Talking_or_moving_about_in_your_sleep_as_if_you_are_acting_out_a_dream">Acting Out Dreams</label>
+                    <select class="form-control" id="Talking_or_moving_about_in_your_sleep_as_if_you_are_acting_out_a_dream" name="Talking_or_moving_about_in_your_sleep_as_if_you_are_acting_out_a_dream" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="Difficulty_swallowing_food_or_drink_or_problems_with_choking">Difficulty Swallowing</label>
+                    <select class="form-control" id="Difficulty_swallowing_food_or_drink_or_problems_with_choking" name="Difficulty_swallowing_food_or_drink_or_problems_with_choking" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="Constipation_less_than_3_bowel_movements_a_week_or_having_to_strain_to_pass_a_stool">Constipation</label>
+                    <select class="form-control" id="Constipation_less_than_3_bowel_movements_a_week_or_having_to_strain_to_pass_a_stool" name="Constipation_less_than_3_bowel_movements_a_week_or_having_to_strain_to_pass_a_stool" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="gender">Gender</label>
+                    <select class="form-control" id="gender" name="gender" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="weight">Weight (kg)</label>
+                    <input class="form-control" id="weight" type="number" name="weight" placeholder="Enter Weight" step="0.1" min="0" max="500" required />
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="Getting_up_regularly_at_night_to_pass_urine">Getting Up Regularly at Night to Pass Urine</label>
+                    <select class="form-control" id="Getting_up_regularly_at_night_to_pass_urine" name="Getting_up_regularly_at_night_to_pass_urine" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="A_sense_of_urgency_to_pass_urine_makes_you_rush_to_the_toilet">Urgency to Pass Urine</label>
+                    <select class="form-control" id="A_sense_of_urgency_to_pass_urine_makes_you_rush_to_the_toilet" name="A_sense_of_urgency_to_pass_urine_makes_you_rush_to_the_toilet" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label" for="age_at_diagnosis">Age at Diagnosis</label>
+                    <input class="form-control" id="age_at_diagnosis" type="number" name="age_at_diagnosis" placeholder="Enter Age at Diagnosis" step="1" min="0" max="150" required />
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-primary" type="submit">Predict</button>
+                </div>                
+            </form>
+
+            <aside class="tips">
+                <h3>Tips for Filling the Form</h3>
+                <ul>
+                    <li> &bull; Ensure all fields are filled out accurately.</li>
+                    <li> &bull; This is only to check if patient is healthy or not.</li>
+                    <li> &bull; Consult with a healthcare provider if unsure about any data.</li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p style="font-size: 24px;">Contact Us</p>
+            <p>Email: <a class="connect" href="mailto:emad.ksa.03@gmail.com">emad.ksa.03@gmail.com </a></p>
+            <p>Phone: <a class="connect" href="tel:+918610566691">+91 8610566691</a></p> <br>
+            <p><a href="mailto:emad.ksa.03@gmail.com" class="btn" style="color: white; text-decoration: none; font-size: 20px; font-family: Georgia, 'Times New Roman', Times, serif;">Get In Touch</a></p>
+            <div class="social-icons">
+                <i class="fab fa-instagram" style="font-size:30px"></i>
+                <a href="https://www.linkedin.com/in/emad-mohamed1/" >in</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
