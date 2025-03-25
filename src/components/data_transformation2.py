@@ -20,8 +20,9 @@ from src.utils import save_object
 
 @dataclass
 class DataTransformationConfig:
-    preprocessor_obj_file_path = os.path.join('artifacts', "preprocessor1.pkl")
-    selected_features_file_path = os.path.join('artifacts', "selected_features1.pkl")
+    preprocessor_obj_file_path = os.path.join('artifacts', "preprocessor2.pkl")
+    selected_features_file_path = os.path.join('artifacts', "selected_features2.pkl")
+    all_columns_file_path = os.path.join('artifacts', "all_columns2.pkl")  # Added
 
 class DataTransformation:
     def __init__(self):
@@ -30,7 +31,7 @@ class DataTransformation:
     def get_data_transformer_object(self):
         try:
             numerical_columns = ['age_at_diagnosis','height','weight']
-            categorical_columns = ['Dribbling of saliva during the daytime', 'Falling', 'Problems remembering things that have happened recently or forgetting to do things', 'Loss or change in your ability to taste or smell', 'effect_of_alcohol_on_tremor', 'Talking or moving about in your sleep as if you are acting out a dream', 'Difficulty swallowing food or drink or problems with choking', 'Constipation (less than 3 bowel movements a week) or having to strain to pass a stool (faeces)', 'gender', 'Getting up regularly at night to pass urine', 'A sense of urgency to pass urine makes you rush to the toilet']
+            categorical_columns = ['Unpleasant sensations in your legs at night or while resting and a feeling that you need to move', 'Finding it difficult to have sex when you try', 'Falling', 'Problems remembering things that have happened recently or forgetting to do things', 'gender', 'Difficulty getting to sleep at night or staying asleep at night', 'Feeling sad low or blue', 'Intense vivid dreams or frightening dreams', 'Unexplained pains (not due to known conditions such as arthritis)', 'Difficulty concentrating or staying focussed', 'Excessive sweating', 'Finding it difficult to stay awake during activities such as working driving or eating', 'Feeling that your bowel emptying is incomplete after having been to the toilet', 'Swelling of your legs', 'Constipation (less than 3 bowel movements a week) or having to strain to pass a stool (faeces)', 'Difficulty swallowing food or drink or problems with choking', 'Bowel (fecal) incontinence', 'appearance_in_first_grade_kinship', 'Feeling light headed dizzy or weak standing from sitting or lying', 'effect_of_alcohol_on_tremor', 'Talking or moving about in your sleep as if you are acting out a dream', 'Dribbling of saliva during the daytime', 'Getting up regularly at night to pass urine', 'A sense of urgency to pass urine makes you rush to the toilet', 'Loss of interest in what is happening around you or doing things', 'Loss or change in your ability to taste or smell']
             num_pipeline = Pipeline(
                 steps=[
                     ("imputer", SimpleImputer(strategy="median")),
@@ -131,7 +132,7 @@ class DataTransformation:
 
             target_column_name = "label"
             numerical_columns = ['age_at_diagnosis','height','weight']
-            all_columns = numerical_columns + ['Dribbling of saliva during the daytime', 'Falling', 'Problems remembering things that have happened recently or forgetting to do things', 'Loss or change in your ability to taste or smell', 'effect_of_alcohol_on_tremor', 'Talking or moving about in your sleep as if you are acting out a dream', 'Difficulty swallowing food or drink or problems with choking', 'Constipation (less than 3 bowel movements a week) or having to strain to pass a stool (faeces)', 'gender', 'Getting up regularly at night to pass urine', 'A sense of urgency to pass urine makes you rush to the toilet'] 
+            all_columns = numerical_columns + ['Unpleasant sensations in your legs at night or while resting and a feeling that you need to move', 'Finding it difficult to have sex when you try', 'Falling', 'Problems remembering things that have happened recently or forgetting to do things', 'gender', 'Difficulty getting to sleep at night or staying asleep at night', 'Feeling sad low or blue', 'Intense vivid dreams or frightening dreams', 'Unexplained pains (not due to known conditions such as arthritis)', 'Difficulty concentrating or staying focussed', 'Excessive sweating', 'Finding it difficult to stay awake during activities such as working driving or eating', 'Feeling that your bowel emptying is incomplete after having been to the toilet', 'Swelling of your legs', 'Constipation (less than 3 bowel movements a week) or having to strain to pass a stool (faeces)', 'Difficulty swallowing food or drink or problems with choking', 'Bowel (fecal) incontinence', 'appearance_in_first_grade_kinship', 'Feeling light headed dizzy or weak standing from sitting or lying', 'effect_of_alcohol_on_tremor', 'Talking or moving about in your sleep as if you are acting out a dream', 'Dribbling of saliva during the daytime', 'Getting up regularly at night to pass urine', 'A sense of urgency to pass urine makes you rush to the toilet', 'Loss of interest in what is happening around you or doing things', 'Loss or change in your ability to taste or smell'] 
 
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
@@ -158,6 +159,14 @@ class DataTransformation:
             save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=preprocessing_obj
+            )
+            save_object(
+                file_path=self.data_transformation_config.selected_features_file_path,
+                obj=selected_features
+            )
+            save_object(
+                file_path=self.data_transformation_config.all_columns_file_path,
+                obj=all_columns
             )
 
             return (

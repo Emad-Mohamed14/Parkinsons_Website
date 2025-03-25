@@ -13,15 +13,26 @@ class PredictPipeline:
         try:
             model_path = os.path.join("artifacts","model1.pkl")
             preprocessor_path=os.path.join('artifacts','preprocessor1.pkl')
-            model, feature_names = load_object(file_path=model_path)
-            preprocessor = load_object(file_path=preprocessor_path)
-            # data_scaled = preprocessor.transform(features)
+            all_columns_path = os.path.join('artifacts', 'all_columns1.pkl')  # Load all_columns
 
-            # Ensure only the expected features are passed to the model
-            features = features[feature_names]
+            model, selected_features = load_object(file_path=model_path)
+            preprocessor = load_object(file_path=preprocessor_path)
+            all_columns = load_object(file_path=all_columns_path)
+            
+            # Preprocess all features first
             data_scaled = preprocessor.transform(features)
 
-            preds = model.predict(data_scaled)
+            # Get indices of selected_features in all_columns
+            selected_indices = [all_columns.index(f) for f in selected_features]
+
+            # Select features from preprocessed data
+            data_scaled_selected = data_scaled[:, selected_indices]
+
+            # Ensure only the expected features are passed to the model
+            # features = features[feature_names]
+            # data_scaled = preprocessor.transform(features)
+
+            preds = model.predict(data_scaled_selected)
             return preds
         
         except Exception as e:

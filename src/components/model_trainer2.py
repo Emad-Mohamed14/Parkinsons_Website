@@ -22,14 +22,14 @@ from src.utils import save_object, evaluate_models
 
 @dataclass
 class ModelTrainerConfig:
-    trained_model_file_path = os.path.join("artifacts", "model1.pkl")
-    ensemble_model_file_path = os.path.join("artifacts", "ensemble_model1.pkl")
+    trained_model_file_path = os.path.join("artifacts", "model2.pkl")
+    ensemble_model_file_path = os.path.join("artifacts", "ensemble_model2.pkl")
 
 class ModelTrainer:
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
 
-    def initiate_model_trainer(self, train_array, test_array):
+    def initiate_model_trainer(self, train_array, test_array, selected_features):
         try:
             logging.info("Split Training & Testing Input Data")
             X_train, y_train, X_test, y_test = (
@@ -39,8 +39,12 @@ class ModelTrainer:
                 test_array[:, -1]
             )
 
-            feature_names = ['age_at_diagnosis','height','weight','Dribbling of saliva during the daytime', 'Falling', 'Problems remembering things that have happened recently or forgetting to do things', 'Loss or change in your ability to taste or smell', 'effect_of_alcohol_on_tremor', 'Talking or moving about in your sleep as if you are acting out a dream', 'Difficulty swallowing food or drink or problems with choking', 'Constipation (less than 3 bowel movements a week) or having to strain to pass a stool (faeces)', 'gender', 'Getting up regularly at night to pass urine', 'A sense of urgency to pass urine makes you rush to the toilet']
+            feature_names = selected_features
 
+             # Verify feature count matches data shape
+            print(f"Expected {len(feature_names)} features, Got {X_train.shape[1]}")
+            assert len(feature_names) == X_train.shape[1], "Feature count mismatch!"
+            
             # Print the shape and features
             print("Training data shape:", X_train.shape)
             print("Testing data shape:", X_test.shape)

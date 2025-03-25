@@ -23,9 +23,9 @@ from src.components.model_trainer2 import ModelTrainer
 
 @dataclass
 class DataIngestionConfig:
-    train_data_path: str=os.path.join('artifacts',"train.csv")
-    test_data_path: str=os.path.join('artifacts',"test.csv")
-    raw_data_path: str=os.path.join('artifacts',"data.csv")
+    train_data_path: str=os.path.join('artifacts',"train2.csv")
+    test_data_path: str=os.path.join('artifacts',"test2.csv")
+    raw_data_path: str=os.path.join('artifacts',"data2.csv")
 
 class DataIngestion:
     def __init__(self):
@@ -34,7 +34,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df = pd.read_csv(r'D:\Parkinsons_Website\Dataset\Healthy_Unhealthy_website.csv')
+            df = pd.read_csv(r'D:\Parkinsons_Website\Dataset\PD_DD_website.csv')
             logging.info('Have read the dataset as dataframe')
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
@@ -61,9 +61,9 @@ if __name__=="__main__":
     
     data_transformation = DataTransformation()
     feature_selection_method = "PFI"  # Change this as needed
-    train_arr, test_arr, _, selected_features = data_transformation.initiate_data_transformation(train_data, test_data, feature_selection_method=feature_selection_method, k=14)
+    train_arr, test_arr, _, selected_features = data_transformation.initiate_data_transformation(train_data, test_data, feature_selection_method=feature_selection_method, k=29)
     print(f"Selected Features: {selected_features}")
 
     modeltrainer = ModelTrainer()
-    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr,selected_features))
     

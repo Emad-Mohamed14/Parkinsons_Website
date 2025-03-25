@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parkinsons Prediction</title>
+    <title>Parkinson's Prediction</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,245 +15,457 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background: linear-gradient(to bottom right, #f7cac9, #92a8d1);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            overflow-y: auto;
         }
 
         .navbar {
-            background-color: #fff;
-            padding: 1rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: fixed;
-            width: 100%;
             top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        .navbar .container {
+            width: 100%;
+            background: rgba(25, 42, 86, 0.9);
+            padding: 0.8rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
-            color: #f39c12;
+            font-weight: 600;
+            color: #fbc531;
             text-decoration: none;
         }
 
         .nav-links {
             list-style: none;
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.3rem 0.8rem;
         }
 
         .nav-links a:hover {
-            color: #f39c12;
-            border-bottom: 2px solid #f39c12;
+            color: #fbc531;
+            border-bottom: 2px solid #fbc531;
         }
 
+        .result {
+            text-align: center;
+            margin-top: 100px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fbc531;
+            background: rgba(15, 32, 54, 0.85);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Form Section */
         .form-section {
-            padding: 100px 20px;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(15, 32, 54, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            max-width: 840px;
+            width: 90%;
+            text-align: left;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .form-section .container {
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
+        /* Form Container with Scroll */
+        .form-container {
+            max-height: 400px;
+            overflow-y: auto;
+            width: 100%;
+            padding: 15px;
         }
 
-        form {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            width: 60%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h3, h2 {
-            font-size: 1.6rem;
-            color: #f39c12;
-            margin-bottom: 20px;
+        .form-heading {
+            font-size: 1.8rem;
+            color: #fbc531;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
+            text-align: left;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #333;
             font-weight: 600;
+            color: white;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        select.form-control {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #fff;
-            appearance: none;
-            cursor: pointer;
-            font-size: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
-        select.form-control:hover {
-            border-color: #f39c12;
+        .form-group select {
+            appearance: none;
+            cursor: pointer;
         }
 
-        select.form-control:focus {
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
-            border-color: #f39c12;
-            box-shadow: 0 0 5px rgba(243, 156, 18, 0.5);
+            border: 2px solid #fbc531;
         }
 
         .submit-btn {
-            background-color: #f39c12;
+            background-color: #fbc531;
             color: white;
-            padding: 0.8rem 2rem;
+            padding: 10px 20px;
+            font-size: 1.1rem;
             border: none;
-            font-size: 1.2rem;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 1rem;
-            display: inline-block;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 5px;
         }
 
         .submit-btn:hover {
-            background-color: #e67e22;
+            background-color: #e1a517;
+        }
+        
+        footer {
+            margin-top: 30px;
+            background: rgba(25, 42, 86, 0.9);
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            width: 100%;
         }
 
+        .footer-links a {
+            color: #fbc531;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .result,
+            form {
+                width: 90%;
+            }
+        }
+        
+        /* Hidden fields styling */
+        input[type="hidden"] {
+            display: none;
+        }
+        
+        /* Tips section styling */
         .tips {
-            background-color: #f9f9f9;
+            background: rgba(15, 32, 54, 0.85);
             padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 22%;
-            margin-left: 2rem;
-            position: absolute;
-            right: 1%;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            margin-top: 20px;
+            width: 100%;
         }
-
+        
         .tips h3 {
-            font-size: 1.5rem;
-            color: #f39c12;
+            color: #fbc531;
             margin-bottom: 10px;
+            font-size: 1.3rem;
         }
-
+        
         .tips ul {
             list-style: none;
             padding-left: 0;
         }
-
+        
         .tips ul li {
             margin-bottom: 10px;
-        }
-
-        footer {
-            background-color: #f39c12;
             color: white;
-            text-align: center;
-            padding: 1rem 0;
-            margin-top: 50px;
         }
-
-        footer p {
-            margin-bottom: 10px;
+        
+        .tips ul li:before {
+            content: "•";
+            color: #fbc531;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
         }
-
-        .social-icons a {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        .social-icons a:hover {
-            color: #333;
-        }
-
-        .btn-primary {
-            padding: 12px;
-            border: none;
-            background-color: palevioletred;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: rgb(202, 30, 88);
-        }
-
-        .result {
-            margin-top: auto; /* Pushes it to the bottom */
-            padding-top: 20px;
-            margin-left: 10%;
-        }
-
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
-        <div class="container">
-            <a href="/" class="logo">Parkinsons Predict</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/predictdata1">Prediction Form</a></li>
-                <li><a href="/about_parkinsons">About Parkinsons</a></li>
-                <li><a href="/faq">FAQ</a></li>
-            </ul>
-        </div>
+        <a href="/" class="logo">Parkinson's Prediction</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/predictdata1">Prediction</a></li>
+            <li><a href="/about_parkinsons">About Parkinson's</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/contact_us">Contact Us</a></li>
+        </ul>
     </nav>
-    <br> <br> <br> <br>
-    <!--  Yes/No Section -->
+
     <div class="result">
-        <h2> Unhealthy? - {{ results }}</h2>
+        <h2>{{ results }}</h2>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>Contact Us</p>
-            <p>Email: emad.ksa.03@gmail.com</p>
-            <p>Phone: +91 8610566691</p>
-            <p>Contact Us</p>
-            <p>Email: tiwarishruti0001@gmail.com</p>
-            <p>Phone: +91 9651096650</p>
-            <div class="social-icons">
-                <a href="#">f</a>
-                <a href="#">t</a>
-                <a href="#">in</a>
+    <form action="{{ url_for('predict_datapoint2') }}" method="POST">
+        <section class="form-section">
+            <h2 class="form-heading">Parkinson's Disease Prediction</h2>
+            <div class="form-container">
+                <!-- Hidden fields for previous 14 features -->
+                {% for key, value in previous_features.items() %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                {% endfor %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="Unpleasant_sensations_in_legs_at_night_or_while_resting_and_a_feeling_that_you_need_to_move">
+                        Unpleasant sensations in your legs at night or while resting, and a feeling that you need to move
+                    </label>
+                    <select class="form-control" id="Unpleasant_sensations_in_legs_at_night_or_while_resting_and_a_feeling_that_you_need_to_move" 
+                            name="Unpleasant_sensations_in_legs_at_night_or_while_resting_and_a_feeling_that_you_need_to_move" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Finding_it_difficult_to_have_sex_when_you_try">
+                        Finding it difficult to have sex when you try
+                    </label>
+                    <select class="form-control" id="Finding_it_difficult_to_have_sex_when_you_try" 
+                            name="Finding_it_difficult_to_have_sex_when_you_try" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Difficulty_getting_to_sleep_at_night_or_staying_asleep_at_night">
+                        Difficulty getting to sleep at night or staying asleep at night
+                    </label>
+                    <select class="form-control" id="Difficulty_getting_to_sleep_at_night_or_staying_asleep_at_night" 
+                            name="Difficulty_getting_to_sleep_at_night_or_staying_asleep_at_night" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Feeling_sad_low_or_blue">
+                        Feeling sad, low or blue
+                    </label>
+                    <select class="form-control" id="Feeling_sad_low_or_blue" 
+                            name="Feeling_sad_low_or_blue" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Intense_vivid_dreams_or_frightening_dreams">
+                        Intense, vivid dreams or frightening dreams
+                    </label>
+                    <select class="form-control" id="Intense_vivid_dreams_or_frightening_dreams" 
+                            name="Intense_vivid_dreams_or_frightening_dreams" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Unexplained_pains_not_due_to_known_conditions_such_as_arthritis">
+                        Unexplained pains (not due to known conditions such as arthritis)
+                    </label>
+                    <select class="form-control" id="Unexplained_pains_not_due_to_known_conditions_such_as_arthritis" 
+                            name="Unexplained_pains_not_due_to_known_conditions_such_as_arthritis" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Difficulty_concentrating_or_staying_focused">
+                        Difficulty concentrating or staying focused
+                    </label>
+                    <select class="form-control" id="Difficulty_concentrating_or_staying_focused" 
+                            name="Difficulty_concentrating_or_staying_focused" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Excessive_sweating">
+                        Excessive sweating
+                    </label>
+                    <select class="form-control" id="Excessive_sweating" 
+                            name="Excessive_sweating" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Finding_it_difficult_to_stay_awake_during_activities_such_as_working_driving_or_eating">
+                        Finding it difficult to stay awake during activities such as working, driving or eating
+                    </label>
+                    <select class="form-control" id="Finding_it_difficult_to_stay_awake_during_activities_such_as_working_driving_or_eating" 
+                            name="Finding_it_difficult_to_stay_awake_during_activities_such_as_working_driving_or_eating" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Feeling_that_your_bowel_emptying_is_incomplete_after_having_been_to_the_toilet">
+                        Feeling that your bowel emptying is incomplete after having been to the toilet
+                    </label>
+                    <select class="form-control" id="Feeling_that_your_bowel_emptying_is_incomplete_after_having_been_to_the_toilet" 
+                            name="Feeling_that_your_bowel_emptying_is_incomplete_after_having_been_to_the_toilet" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Swelling_of_your_legs">
+                        Swelling of your legs
+                    </label>
+                    <select class="form-control" id="Swelling_of_your_legs" 
+                            name="Swelling_of_your_legs" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Bowel_fecal_incontinence">
+                        Bowel (fecal) incontinence
+                    </label>
+                    <select class="form-control" id="Bowel_fecal_incontinence" 
+                            name="Bowel_fecal_incontinence" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Appearance_in_first_grade_kinship">
+                        Parkinson's in first-grade relatives
+                    </label>
+                    <select class="form-control" id="Appearance_in_first_grade_kinship" 
+                            name="Appearance_in_first_grade_kinship" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="Feeling_light_headed_dizzy_or_weak_standing_from_sitting_or_lying">
+                        Feeling light headed, dizzy or weak standing from sitting or lying
+                    </label>
+                    <select class="form-control" id="Feeling_light_headed_dizzy_or_weak_standing_from_sitting_or_lying" 
+                            name="Feeling_light_headed_dizzy_or_weak_standing_from_sitting_or_lying" required>
+                        <option value="" disabled selected>Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button class="submit-btn" type="submit">Verify Now</button>
+                </div>
             </div>
+            
+            <div class="tips">
+                <h3>Tips for Filling the Form</h3>
+                <ul>
+                    <li>Ensure all fields are filled out accurately.</li>
+                    <li>This is only to check if patient is healthy or not.</li>
+                    <li>Consult with a healthcare provider if unsure about any data.</li>
+                </ul>
+            </div>
+        </section>
+    </form>
+    
+    <footer>
+        <p>&copy; 2025 Parkinson's Prediction. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="mailto:emad.ksa.03@gmail.com">Contact</a> |
+            <a href="mailto:tiwarishruti0001@gmail.com">Contact</a> |
+            <a href="https://www.linkedin.com/in/emad-mohamed1/">LinkedIn</a>
         </div>
     </footer>
-
 </body>
-
 </html>
